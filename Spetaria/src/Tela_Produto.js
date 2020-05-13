@@ -9,7 +9,8 @@ export class Tela_Produto extends Component {
     constructor(props){
         super(props);
             this.state = {
-                lista:[]
+                lista:[],
+                listaitens:[]
             };
             let url = 'https://joaolucasribeirobarbosa.com.br/delivery/servicos/produto/listarprodutosid.php?grupos_idgrupos=';
             fetch(url.concat(props.navigation.state.params.id_Grupos))
@@ -37,7 +38,6 @@ export class Tela_Produto extends Component {
                 renderItem={({item})=><ProductItem data={item} />}
                 keyExtractor={(item,index)=>item.idProduto.toString()}
                 />
-                
             </View>
 
         );
@@ -51,7 +51,7 @@ class ProductItem extends Component{
         this.state = {
             modalVisible:false,
             quantidade:1,
-            valorTotal:1 * props.data.Valor,
+            valorTotal:1 * this.props.data.Valor,
         }
         this.AbrirModal = this.AbrirModal.bind(this);
         this.FecharModal = this.FecharModal.bind(this);
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
         alignSelf:"center"
     
       },
-      stepperButton:{
+    stepperButton:{
         backgroundColor: '#rgba(238, 169, 91, 0.1)', 
         borderColor: '#8a6d3b', 
         borderWidth: 1, 
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
         alignItems: 'center', 
         justifyContent: 'center'
       },
-      stepper:{
+    stepper:{
         borderWidth: 0,
         padding:10
       }
@@ -221,7 +221,10 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return{
-        itens:state.Item.listaitem
+        id:state.Item.listaitem.id,
+        idProduto:state.Item.listaitem.idProduto,
+        quantidade:state.Item.listaitem.quantidade,
+        valor:state.Item.listaitem.valor
     };
 };
 

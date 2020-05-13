@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {View, Image, StyleSheet, FlatList} from 'react-native';
+import {View, Image, StyleSheet, FlatList, TouchableOpacity, Text} from 'react-native';
+import {connect} from 'react-redux';
 
 
-
-export default class Tela_Carrinho extends Component {
+export class Tela_Carrinho extends Component {
 
     static navigationOptions = {
         title:'Spetaria do Coruja',
@@ -24,24 +24,63 @@ export default class Tela_Carrinho extends Component {
     constructor(props){
         super(props);
         this.state = {
-            lista:[]
+            
         };
 
        
     }
 
     render(){
+
+        if(this.props.lista.length == 0){
+            return(
+                <View style= {styles.container}>
+                    <Text>
+                        Carrinho Vaziu!
+                    </Text>
+                </View>
+            );
+        }else{
         return(
             <View style= {styles.container}>
                 <FlatList
-                data={this.state.lista}
+                data={this.props.lista}
                 renderItem={({item})=><Grupo data={item} navigation={this.props.navigation}/>}
-                keyExtractor={(item,index)=>item.idGrupos.toString()}
+                keyExtractor={(item,index)=>item.id.toString()}
                 />
             </View>
         );
     }
+    }
 }
+
+class Grupo extends Component{
+
+    constructor(props){
+        super(props);
+        this.clicou = this.clicou.bind(this);
+    }
+        clicou(){
+            
+        }
+
+        render(){
+            return(
+                
+                <TouchableOpacity  onPress={this.clicou}>
+                    <View style = {styles.listaItem}>
+                        <View>
+                        <Text >{this.props.data.id}</Text>       
+                        <Text >{this.props.data.idProduto}</Text>       
+                        <Text >{this.props.data.quantidade}</Text>       
+                        <Text >{this.props.data.valor}</Text>       
+                        </View>
+                    </View>
+                </TouchableOpacity>
+               
+            );
+        }
+    }
 
 
 const styles = StyleSheet.create({
@@ -80,3 +119,12 @@ const styles = StyleSheet.create({
 
     }
 });
+
+const mapStateToProps = (state) => {
+    return{
+        lista:state.Item.listaitem
+    };
+};
+
+const CarrinhoConnect = connect(mapStateToProps) (Tela_Carrinho);
+export default CarrinhoConnect;
