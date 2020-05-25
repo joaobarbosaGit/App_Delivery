@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, TouchableOpacity, StyleSheet, Text, FlatList, Modal, Button, Alert} from 'react-native';
 import {Stepper} from 'teaset';
 import {connect} from 'react-redux';
+import {editListaItem} from './Actions/ItemActions';
 
 export class Tela_Produto extends Component {
 
@@ -35,7 +36,7 @@ export class Tela_Produto extends Component {
             <View style= {styles.container}>
                 <FlatList
                 data={this.state.lista}
-                renderItem={({item})=><ProductItem data={item} />}
+                renderItem={({item})=><ProductItem data={item} navigation={this.props.navigation}/>}
                 keyExtractor={(item,index)=>item.idProduto.toString()}
                 />
             </View>
@@ -52,6 +53,7 @@ class ProductItem extends Component{
             modalVisible:false,
             quantidade:1,
             valorTotal:1 * this.props.data.Valor,
+            idProduto: this.props.data.idProduto
         }
         this.AbrirModal = this.AbrirModal.bind(this);
         this.FecharModal = this.FecharModal.bind(this);
@@ -71,7 +73,10 @@ class ProductItem extends Component{
         this.setState(s);
     }
     adicionarItemPedido(){
-        Alert.alert("Mensagem","ok")
+
+        this.FecharModal();
+
+        //this.props.navigation.navigate('Tela_Grupo'),{idProduto:this.props.idProduto,quantidade:this.props.quantidade};
     }
     formatarNumeros(valor){
         return valor.toFixed(2).replace(".",",");
@@ -221,12 +226,13 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return{
-        id:state.Item.listaitem.id,
-        idProduto:state.Item.listaitem.idProduto,
-        quantidade:state.Item.listaitem.quantidade,
-        valor:state.Item.listaitem.valor
+        idProduto:state.Item.idProduto,
+        quantidade:state.Item.quantidade,
+        valor:state.Item.valor,
+        nome:state.Item.nome,
+        descricao:state.Item.descricao
     };
 };
 
-const ItemConnect = connect(mapStateToProps) (Tela_Produto);
+const ItemConnect = connect(mapStateToProps, {editListaItem}) (Tela_Produto);
 export default ItemConnect;

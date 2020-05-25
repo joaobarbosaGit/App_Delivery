@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Image, StyleSheet, TouchableOpacity,Text} from 'react-native';
+import {View, Image, StyleSheet, TouchableOpacity,Text, Alert} from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 
 export default class Tela_Grupo extends Component {
@@ -21,7 +21,10 @@ export default class Tela_Grupo extends Component {
             state.lista = json;
             this.setState(state)
         });
+
+      
     }
+
 
     render(){
         return(

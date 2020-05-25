@@ -37,10 +37,62 @@ const  TabNavigator = createAppContainer(
                 );
             }
         }            
-      }},
-      Tela_Pedidos,
-      Tela_Carrinho,
-      Tela_Sobre
+      }
+    },
+      Tela_Pedidos:{
+        screen:Tela_Pedidos,
+        navigationOptions:{
+          title:'Pedidos',
+          tabBarLabel:'Pedidos',
+          tabBarIcon:({focused,tintColor})=>{
+            if(focused){
+                return(
+                    <Image source={require('../assets/images/pedidos_azul.png')} style={styles.icone}/>
+                );
+            }else{
+                return(
+                    <Image source={require('../assets/images/pedidos_preto.png')} style={styles.icone}/>
+                );
+            }
+        }
+        }
+      },
+      Tela_Carrinho:{
+        screen:Tela_Carrinho,
+        navigationOptions:{
+          title:'Spetaria do Coruja',
+        tabBarLabel:'Carrinho',
+        tabBarIcon:({focused,tintColor})=>{
+            if(focused){
+                return(
+                    <Image source={require('../assets/images/carrinho_azul.png')} style={styles.icone}/>
+                );
+            }else{
+                return(
+                    <Image source={require('../assets/images/carrinho_preto.png')} style={styles.icone}/>
+                );
+            }
+        }
+        }
+      },
+      Tela_Sobre:{
+        screen:Tela_Sobre,
+        navigationOptions:{
+          title:'Spetaria do Coruja',
+        tabBarLabel:'Sobre',
+        tabBarIcon:({focused,tintColor})=>{
+            if(focused){
+                return(
+                    <Image source={require('../assets/images/sobre_azul.png')} style={styles.icone}/>
+                );
+            }else{
+                return(
+                    <Image source={require('../assets/images/sobre_preto.png')} style={styles.icone}/>
+                );
+            }
+        }
+        }
+      }
     },
   ),
 );

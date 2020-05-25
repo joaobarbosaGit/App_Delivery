@@ -5,27 +5,22 @@ import {connect} from 'react-redux';
 
 export class Tela_Carrinho extends Component {
 
-    static navigationOptions = {
-        title:'Spetaria do Coruja',
-        tabBarLabel:'Carrinho',
-        tabBarIcon:({focused,tintColor})=>{
-            if(focused){
-                return(
-                    <Image source={require('../assets/images/carrinho_azul.png')} style={styles.icone}/>
-                );
-            }else{
-                return(
-                    <Image source={require('../assets/images/carrinho_preto.png')} style={styles.icone}/>
-                );
-            }
-        }
-    }
+   // static navigationOptions = {
+        
+    //}
 
     constructor(props){
         super(props);
         this.state = {
             
         };
+        let a =  {
+            id:2,
+            idProduto:2,
+            quantidade:2,
+            valor:2
+        }
+        props.lista.push(a);
 
        
     }
