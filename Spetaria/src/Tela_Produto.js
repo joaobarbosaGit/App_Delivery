@@ -1,43 +1,44 @@
-import React, {Component} from 'react';
-import {View, TouchableOpacity, StyleSheet, Text, FlatList, Modal, Button, Alert} from 'react-native';
-import {Stepper} from 'teaset';
-import {connect} from 'react-redux';
-import {editListaItem} from './Actions/ItemActions';
+import React, { Component } from 'react';
+import { View, TouchableOpacity, StyleSheet, Text, FlatList, Modal, Button, Alert } from 'react-native';
+import { Stepper } from 'teaset';
+import { connect } from 'react-redux';
+import { editListaItem , editQuantidade, editValor, editIdProduto, editNome, editDescricao} from './Actions/ItemActions';
 
 export class Tela_Produto extends Component {
 
 
-    constructor(props){
+    constructor(props) {
         super(props);
-            this.state = {
-                lista:[],
-                listaitens:[]
-            };
-            let url = 'https://joaolucasribeirobarbosa.com.br/delivery/servicos/produto/listarprodutosid.php?grupos_idgrupos=';
-            fetch(url.concat(props.navigation.state.params.id_Grupos))
-            .then((r)=>r.json())
-            .then((json)=>{
-            let state = this.state;
-            state.lista = json;
-            this.setState(state)
-        });
-
-
+        this.state = {
+            lista: [],
+            listaitens: []
         };
+        let url = 'https://joaolucasribeirobarbosa.com.br/delivery/servicos/produto/listarprodutosid.php?grupos_idgrupos=';
+        fetch(url.concat(props.navigation.state.params.id_Grupos))
+            .then((r) => r.json())
+            .then((json) => {
+                let state = this.state;
+                state.lista = json;
+                this.setState(state)
+            });
 
-    static navigationOptions = ({navigation}) => ({
-        title:navigation.state.params.title,
-        tabBarLabel:'Home',
+    };
+
+    static navigationOptions = ({ navigation }) => ({
+        title: navigation.state.params.title,
+        tabBarLabel: 'Home',
 
     });
 
-    render(){
-        return(
-            <View style= {styles.container}>
+    
+
+    render() {
+        return (
+            <View style={styles.container}>
                 <FlatList
-                data={this.state.lista}
-                renderItem={({item})=><ProductItem data={item} navigation={this.props.navigation}/>}
-                keyExtractor={(item,index)=>item.idProduto.toString()}
+                    data={this.state.lista}
+                    renderItem={({ item }) => <ProductItem data={item} navigation={this.props.navigation} />}
+                    keyExtractor={(item, index) => item.idProduto.toString()}
                 />
             </View>
 
@@ -45,14 +46,14 @@ export class Tela_Produto extends Component {
     }
 }
 
-class ProductItem extends Component{
-    
-    constructor(props){
+class ProductItem extends Component {
+
+    constructor(props) {
         super(props);
         this.state = {
-            modalVisible:false,
-            quantidade:1,
-            valorTotal:1 * this.props.data.Valor,
+            modalVisible: false,
+            quantidade: 1,
+            valorTotal: 1 * this.props.data.Valor,
             idProduto: this.props.data.idProduto
         }
         this.AbrirModal = this.AbrirModal.bind(this);
@@ -61,178 +62,177 @@ class ProductItem extends Component{
         this.formatarNumeros = this.formatarNumeros.bind(this);
         this.formatarNumeros2 = this.formatarNumeros2.bind(this);
     }
-    
-    AbrirModal(){
+
+    AbrirModal() {
         let s = this.state;
         s.modalVisible = true;
         this.setState(s);
     }
-    FecharModal(){
+    FecharModal() {
         let s = this.state;
         s.modalVisible = false;
         this.setState(s);
     }
-    adicionarItemPedido(){
-
+    adicionarItemPedido() {
+        Alert.alert("teste", this.props.nome);
+        Alert.alert("teste", this.props.data.Nome_Produto);
         this.FecharModal();
+    }
+    formatarNumeros(valor) {
+        return valor.toFixed(2).replace(".", ",");
+    }
+    formatarNumeros2(valor) {
+        return valor.replace(".", ",");
+    }
+    render() {
 
-        //this.props.navigation.navigate('Tela_Grupo'),{idProduto:this.props.idProduto,quantidade:this.props.quantidade};
-    }
-    formatarNumeros(valor){
-        return valor.toFixed(2).replace(".",",");
-    }
-    formatarNumeros2(valor){
-        return valor.replace(".",",");
-    }
-    render(){
-        
-        return(
+        return (
             <View>
-            <Modal animationType="slide" visible = {this.state.modalVisible}>
-               <View style = {styles.modal}>
-                    <View style = {styles.modalView1}>
-                        <Text style ={styles.modalTexto1}>{this.props.data.Nome_Produto}</Text>
-                        <Text style ={styles.modalTexto2}>{this.props.data.Descricao}</Text>
-                    </View>
-                    <View style = {styles.modalView3}>
-                        <Text style ={styles.modalTexto3}>Quantidade:</Text>
-                        <Stepper style={styles.stepper} onChange={v => this.setState({quantidade: v, valorTotal: v * this.props.data.Valor})}  showSeparator={false} value={this.state.quantidade} valueStyle={{color: '#8a6d3b', fontSize:30}} min={1} max={100}
-                                subButton={ 
-                                        <View style={styles.stepperButton}>
-                                            <Text style={{color: '#8a6d3b'}}>－</Text>
-                                        </View>
-                                        }
+                <Modal animationType="slide" visible={this.state.modalVisible}>
+                    <View style={styles.modal}>
+                        <View style={styles.modalView1}>
+                            <Text style={styles.modalTexto1}>{this.props.data.Nome_Produto}</Text>
+                            <Text style={styles.modalTexto2}>{this.props.data.Descricao}</Text>
+                        </View>
+                        <View style={styles.modalView3}>
+                            <Text style={styles.modalTexto3}>Quantidade:</Text>
+                            <Stepper style={styles.stepper} onChange={v => this.setState({ quantidade: v, valorTotal: v * this.props.data.Valor })} showSeparator={false} value={this.state.quantidade} valueStyle={{ color: '#8a6d3b', fontSize: 30 }} min={1} max={100}
+                                subButton={
+                                    <View style={styles.stepperButton}>
+                                        <Text style={{ color: '#8a6d3b' }}>－</Text>
+                                    </View>
+                                }
                                 addButton={
-                                        <View style={styles.stepperButton}>
-                                            <Text style={{color: '#8a6d3b'}}>＋</Text>
-                                        </View>
-                                        }
-  
-                        />
+                                    <View style={styles.stepperButton}>
+                                        <Text style={{ color: '#8a6d3b' }}>＋</Text>
+                                    </View>
+                                }
+
+                            />
+                        </View>
+                        <View style={styles.modalView3}>
+                            <Text style={styles.modalTexto3}>Valor Unitario:</Text>
+                            <Text style={styles.modalTexto3}>R$ {this.formatarNumeros2(this.props.data.Valor)}</Text>
+                        </View>
+                        <View style={styles.modalView3}>
+                            <Text style={styles.modalTexto3}>Valor Total:</Text>
+                            <Text style={styles.modalTexto3}>R$ {this.formatarNumeros(this.state.valorTotal)}</Text>
+                        </View>
+
+                        <View style={styles.modalView2}>
+                            <Button title='Adicionar' onPress={this.adicionarItemPedido} />
+                            <Button title='Sair' onPress={this.FecharModal} />
+                        </View>
                     </View>
-                    <View style = {styles.modalView3}>    
-                        <Text style ={styles.modalTexto3}>Valor Unitario:</Text>                
-                        <Text style = {styles.modalTexto3}>R$ {this.formatarNumeros2(this.props.data.Valor)}</Text>
+                </Modal>
+                <TouchableOpacity onPress={this.AbrirModal}>
+                    <View style={styles.produtc}>
+                        <Text style={styles.title}>{this.props.data.Nome_Produto}</Text>
+                        <View>
+                            <Text style={styles.valor}>Valor: R$ {this.props.data.Valor}</Text>
+                        </View>
                     </View>
-                    <View style = {styles.modalView3}>    
-                        <Text style ={styles.modalTexto3}>Valor Total:</Text>                
-                        <Text style = {styles.modalTexto3}>R$ {this.formatarNumeros(this.state.valorTotal)}</Text>
-                    </View>
-                    
-                    <View style = {styles.modalView2}>
-                        <Button title='Adicionar' onPress={this.adicionarItemPedido}/>
-                        <Button title='Sair' onPress={this.FecharModal}/>
-                    </View>
-                </View>
-            </Modal>
-            <TouchableOpacity onPress={this.AbrirModal}>
-            <View style = {styles.produtc}>
-                <Text style = {styles.title}>{this.props.data.Nome_Produto}</Text>
-                <View>
-                    <Text style ={styles.valor}>Valor: R$ {this.props.data.Valor}</Text>
-                </View>
-            </View>
-            </TouchableOpacity>
+                </TouchableOpacity>
             </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    container:{
-        backgroundColor:"#cccccc",
-        flex:1,
+    container: {
+        backgroundColor: "#cccccc",
+        flex: 1,
     },
-    produtc:{
-        height:100,
-        backgroundColor:"#ffffff",
-        marginTop:5,
-        marginRight:3,
-        marginLeft:3,
-        marginBottom:5,
-        borderRadius:20,
-        padding:10,
-        flex:1,
-        justifyContent:'center',
-        alignItems:'center'
+    produtc: {
+        height: 100,
+        backgroundColor: "#ffffff",
+        marginTop: 5,
+        marginRight: 3,
+        marginLeft: 3,
+        marginBottom: 5,
+        borderRadius: 20,
+        padding: 10,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
-    title:{
-        fontSize:22,
-        fontWeight:'bold',
-    }, 
-    valor:{
-        fontSize:20,
+    title: {
+        fontSize: 22,
+        fontWeight: 'bold',
     },
-    modal:{
-        flex:1,
-        justifyContent:"center",
-        alignItems:'center',
+    valor: {
+        fontSize: 20,
     },
-    modalView1:{
-        
+    modal: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: 'center',
     },
-    modalView2:{
-        flexDirection:"row",
-        justifyContent:"space-around",
-        width:200,
-        marginTop:10
-        
+    modalView1: {
+
     },
-    modalView3:{
-        flexDirection:"row",
-        justifyContent:"center",
-        alignItems:'center',
-        marginBottom:10
-        
+    modalView2: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        width: 200,
+        marginTop: 10
+
     },
-    modalTexto1:{
-        alignSelf:'center',
-        fontSize:35,
-        fontWeight:'bold',
-        marginRight:10
+    modalView3: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: 'center',
+        marginBottom: 10
+
     },
-    modalTexto2:{
-        alignSelf:'center',
-        fontSize:20,
-        padding:30
+    modalTexto1: {
+        alignSelf: 'center',
+        fontSize: 35,
+        fontWeight: 'bold',
+        marginRight: 10
     },
-    modalTexto3:{
-        alignSelf:'center',
-        fontSize:20,
-        fontWeight:'bold',
-        marginRight:10
+    modalTexto2: {
+        alignSelf: 'center',
+        fontSize: 20,
+        padding: 30
     },
-    input:{
-        fontSize:20,
-        fontWeight:'bold',
-        alignSelf:"center"
-    
-      },
-    stepperButton:{
-        backgroundColor: '#rgba(238, 169, 91, 0.1)', 
-        borderColor: '#8a6d3b', 
-        borderWidth: 1, 
-        borderRadius:4, 
-        width: 40, 
-        height: 40, 
-        alignItems: 'center', 
+    modalTexto3: {
+        alignSelf: 'center',
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginRight: 10
+    },
+    input: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        alignSelf: "center"
+
+    },
+    stepperButton: {
+        backgroundColor: '#rgba(238, 169, 91, 0.1)',
+        borderColor: '#8a6d3b',
+        borderWidth: 1,
+        borderRadius: 4,
+        width: 40,
+        height: 40,
+        alignItems: 'center',
         justifyContent: 'center'
-      },
-    stepper:{
+    },
+    stepper: {
         borderWidth: 0,
-        padding:10
-      }
+        padding: 10
+    }
 });
 
 const mapStateToProps = (state) => {
-    return{
-        idProduto:state.Item.idProduto,
-        quantidade:state.Item.quantidade,
-        valor:state.Item.valor,
-        nome:state.Item.nome,
-        descricao:state.Item.descricao
+    return {
+        quantidade: state.Item.quantidade,
+        valor: state.Item.valor,
+        idProduto: state.Item.idproduto,
+        nome: state.Item.nome,
+        descricao: state.Item.descricao
     };
 };
 
-const ItemConnect = connect(mapStateToProps, {editListaItem}) (Tela_Produto);
+const ItemConnect = connect(mapStateToProps) (Tela_Produto, ProductItem);
 export default ItemConnect;

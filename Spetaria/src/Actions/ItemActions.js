@@ -1,48 +1,46 @@
-export const editListaItem = (item) =>{
+export const editListaItem = (item) => {
     return {
-       type:'adicionarItemLista',
-       payload: listaitem.push(item)
-       
-       
+        type: 'adicionarItemLista',
+        payload: listaitem.push(item)
     }
 }
-export const editQuantidade = (quantidade) =>{
+export const editQuantidade = (quantidade) => {
     return {
-        type:"editQuantidade",
-        payload:{
-            quantidade:quantidade
+        type: "editQuantidade",
+        payload: {
+            quantidade: quantidade
         }
     }
 }
-export const editValor = (valor) =>{
+export const editValor = (valor) => {
     return {
-        type:"editValor",
-        payload:{
-            valor:valor
+        type: "editValor",
+        payload: {
+            valor: valor
         }
     }
 }
-export const editIdProduto = (idproduto) =>{
+export const editIdProduto = (idproduto) => {
     return {
-        type:"editIdProduto",
-        payload:{
-            vaidprodutolor:idproduto
+        type: "editIdProduto",
+        payload: {
+            vaidprodutolor: idproduto
         }
     }
 }
-export const editNome = (nome) =>{
+export const editNome = (nome) => {
     return {
-        type:"editNome",
-        payload:{
-            nome:nome
+        type: "editNome",
+        payload: {
+            nome: nome
         }
     }
 }
-export const editDescricao = (descricao) =>{
+export const editDescricao = (descricao) => {
     return {
-        type:"editDescricao",
-        payload:{
-            descricao:descricao
+        type: "editDescricao",
+        payload: {
+            descricao: descricao
         }
     }
 }

@@ -7,16 +7,16 @@ const initialState = {
           valor:1
         } 
     ],
-    quantidade:1,
+    quantidade:2,
     valor:10.50,
     idproduto:1,
-    nome:1,
-    descricao:1
+    nome:"carne",
+    descricao:"boa"
 };
 
 const ItemReducer = (state = [], action) => {
     if(state.length == 0){
-        return  {...state,initialState};
+        return  initialState;
     }
     if(action.type == 'adicionarItemLista'){
         return  {...state, listaitem:action.payload.listaitem};
